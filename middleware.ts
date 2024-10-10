@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
   // Protect routes that start with /dashboard
   if (pathname.startsWith("/dashboard")) {
     if (!token) {
-      const loginUrl = new URL("/auth/google", req.url);
+      const loginUrl = new URL("/auth", req.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
