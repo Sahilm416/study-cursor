@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Hero } from "@/components/homepage";
+
 export default function Home() {
   return (
-      <div className="flex justify-center items-center h-screen">
-          <Button>
-            Upload new pdf
-          </Button>
-      </div>
+    <div className="flex h-screen justify-center items-center">
+      <Hero />
+    </div>
   );
 }
