@@ -6,6 +6,7 @@ type FileMetadata = {
   userId: string;
   url: string;
   name: string;
+  file_key: string;
 };
 
 export const uploadFile = async (metadata: FileMetadata) => {
@@ -13,6 +14,7 @@ export const uploadFile = async (metadata: FileMetadata) => {
     uploaded_by: metadata.userId,
     file_name: metadata.name,
     url: metadata.url,
+    file_key: metadata.file_key,
   });
 
   if (error) {
