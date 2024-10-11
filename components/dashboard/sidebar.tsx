@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Files, Menu } from "lucide-react";
+import { Files, Menu, LogOut } from "lucide-react";
 
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
@@ -17,7 +17,7 @@ interface NavItemProps {
   href: string;
 }
 
-export const Sidebar = () => {
+export const Sidebar = ({ files }: { files: any[] }) => {
   const [open, setOpen] = useState(false);
 
   const { data: session } = useSession();
@@ -53,11 +53,20 @@ export const Sidebar = () => {
           <NavItem icon={<Files className="h-4 w-4" />} href="#">
             Files
           </NavItem>
+          <div className="flex flex-col gap-2">
+            {files.map((file,i) => (
+              <Link
+                key={i}
+                className="py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
+                href={`${file.url}`}
+              >
+                {file.file_name}
+              </Link>
+            ))}
+          </div>
         </nav>
       </div>
-      <div className="mt-auto p-4">
-        <Button onClick={async () => await getUser()}>Get server session</Button>
-        <Button onClick={() => signOut()}>Logout</Button>  
+      <div className="mt-auto py-4 px-2 border flex justify-center items-center">
         <div className="flex items-center gap-4 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
           <img
             alt="Avatar"
@@ -72,8 +81,11 @@ export const Sidebar = () => {
           <div className="flex flex-col">
             <span className="text-sm font-medium">{session?.user?.name}</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              {session?.user?.email}
+              {session?.user?.email?.slice(0, 8) + "..."}
             </span>
+          </div>
+          <div onClick={() => signOut()} className="p-2 bg-gray-200 hover:bg-gray-300 rounded-lg cursor-pointer">
+            <LogOut className="h-5 w-5"  />
           </div>
         </div>
       </div>
@@ -82,7 +94,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <aside className="hidden h-screen w-64 border-r bg-gray-100/40 dark:bg-gray-800/40 md:block">
+      <aside className="hidden h-screen w-[300px] border-r bg-gray-100/40 dark:bg-gray-800/40 md:block">
         <ScrollArea className="h-full">
           <SidebarContent />
         </ScrollArea>
