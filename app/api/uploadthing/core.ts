@@ -30,6 +30,7 @@ export const ourFileRouter = {
         userId: metadata.userId!,
         url: file.url,
         name: file.name,
+        file_key: file.key,
       });
 
       return res;
