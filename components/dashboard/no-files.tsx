@@ -1,8 +1,9 @@
 "use client";
 
 import { UploadButton } from "@/utils/uploadthing";
-
+import { useRouter } from "next/navigation";
 export const NoFiles = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center h-full text-center">
       <div>
@@ -19,8 +20,7 @@ export const NoFiles = () => {
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             // Do something with the response
-            console.log("Files: ", res);
-            alert("Upload Completed");
+            router.refresh();
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
