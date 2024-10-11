@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { verifyUser } from "@/actions/verify";
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const token = await verifyUser(req);
   const { pathname } = req.nextUrl;
 
   // Protect routes that start with /dashboard
