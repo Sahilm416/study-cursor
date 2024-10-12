@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send, X } from "lucide-react";
+import MarkdownResponse from "./markdown-response";
 
 export function ChatBox({
   selectedText: initialSelectedText,
@@ -87,7 +88,7 @@ export function ChatBox({
                 <p className="text-sm font-semibold mb-1">
                   {m.role === "user" ? "You" : "AI"}
                 </p>
-                <p className="whitespace-pre-wrap">{m.content}</p>
+                {m.role === "assistant" ? <MarkdownResponse content={m.content} /> : <p className="whitespace-pre-wrap">{m.content}</p>}
               </div>
             </div>
             {m.role === "user" && selectedText && (

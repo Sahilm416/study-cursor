@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const result = await streamText({
     system: `question: ${
       messages[messages.length - 1].content
-    } context: ${selectedText}`,
+    } context: ${selectedText} , instructions: Respond in markdown format. Make sure respond in concise manner. Don't use any other formatting.`,
     model: openai("gpt-4-turbo"),
     messages: convertToCoreMessages(messages),
   });
