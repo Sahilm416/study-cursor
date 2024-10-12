@@ -18,13 +18,21 @@ export function ChatBox({
   const [selectedText, setSelectedText] = useState(initialSelectedText);
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
     useChat();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setSelectedText(initialSelectedText);
   }, [initialSelectedText]);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    if (isOpen) {
+      // Add a small delay to ensure the textarea is rendered
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen, initialSelectedText]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -73,7 +81,10 @@ export function ChatBox({
   };
 
   useEffect(() => {
-    if (messages.length > 0 && messages[messages.length - 1].role === 'assistant') {
+    if (
+      messages.length > 0 &&
+      messages[messages.length - 1].role === "assistant"
+    ) {
       setIsLoading(false);
     }
   }, [messages]);
@@ -148,7 +159,6 @@ export function ChatBox({
       <form onSubmit={handleFormSubmit} className="p-4 bg-background">
         <div className="relative">
           <Textarea
-            autoFocus
             ref={textareaRef}
             value={input}
             onChange={handleInputChange}
