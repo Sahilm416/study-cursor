@@ -1,14 +1,13 @@
 "use client";
 import { UploadButton } from "@/utils/uploadthing";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export const UploadButtonComponent = ({
   hideAllowedContent,
+
 }: {
   hideAllowedContent: boolean;
 }) => {
-  const router = useRouter();
   return (
     <UploadButton
       appearance={{
@@ -17,9 +16,9 @@ export const UploadButtonComponent = ({
       }}
       endpoint="pdfUploader"
       onClientUploadComplete={(res) => {
-        // Do something with the response
         toast.success("File uploaded successfully");
-        router.refresh();
+        console.log(res[0]);
+        window.location.reload();
       }}
       onUploadError={(error: Error) => {
         toast.error(`ERROR! ${error.message}`);

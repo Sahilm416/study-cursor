@@ -26,9 +26,8 @@ interface File {
   file_key: string;
 }
 
-export function AllFiles({ files: initialFiles }: { files: File[] }) {
+export function AllFiles({ files }: { files: File[] }) {
   const router = useRouter();
-  const [files, setFiles] = useState(initialFiles);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -39,29 +38,31 @@ export function AllFiles({ files: initialFiles }: { files: File[] }) {
   const handleDelete = async (fileKey: string) => {
     toast.promise(deleteFile(fileKey), {
       loading: "Deleting file...",
-      success: "File deleted successfully",
+      success: () => {
+        router.refresh();
+        return "File deleted successfully";
+      },
       error: "Failed to delete file",
     });
-    setFiles(files.filter((f) => f.file_key !== fileKey));
-    router.refresh();
   };
 
   return (
     <Card className="w-full h-full rounded-none border-none shadow-md bg-[#fafafa]">
       <CardHeader className="border-b sm:h-[60px] p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
         <CardTitle className="text-2xl font-bold">All Files</CardTitle>
-        <div className="flex items-center space-x-2">
-          <Input
-            type="text"
-            placeholder="Search files..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full sm:w-64"
-          />
-          {files.length > 0 && (
+        {files.length > 0 && (
+          <div className="flex items-center space-x-2">
+            <Input
+              type="text"
+              placeholder="Search files..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full sm:w-64"
+            />
+
             <UploadButtonComponent hideAllowedContent={true} />
-          )}
-        </div>
+          </div>
+        )}
       </CardHeader>
       <CardContent className="p-4">
         {filteredFiles.length === 0 ? (
@@ -97,7 +98,7 @@ export function AllFiles({ files: initialFiles }: { files: File[] }) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="cursor-pointer" asChild>
+                    <DropdownMenuItem asChild>
                       <Link
                         href={file.url}
                         download
@@ -108,7 +109,7 @@ export function AllFiles({ files: initialFiles }: { files: File[] }) {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => handleDelete(file.file_key)}
-                      className="text-red-600"
+                      className="text-red-600 cursor-pointer"
                     >
                       <Trash2 className="mr-2 h-4 w-4" /> Delete
                     </DropdownMenuItem>
