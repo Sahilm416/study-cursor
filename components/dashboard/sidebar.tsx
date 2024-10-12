@@ -9,24 +9,25 @@ import { Files, Menu, LogOut } from "lucide-react";
 
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
-import { getUser } from "@/actions/auth";
-
+import { usePathname } from "next/navigation";
 interface NavItemProps {
   icon: ReactNode;
   children: ReactNode;
   href: string;
+  active: boolean;
 }
 
-export const Sidebar = ({ files }: { files: any[] }) => {
+export const Sidebar = () => {
   const [open, setOpen] = useState(false);
 
   const { data: session } = useSession();
+  const pathname = usePathname();
 
-  const NavItem = ({ icon, children, href }: NavItemProps) => {
+  const NavItem = ({ icon, children, href, active }: NavItemProps) => {
     return (
       <Link
-        href={href}
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+          href={href}
+        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ${active ? "bg-gray-200 dark:bg-gray-700" : ""}`}
       >
         {icon}
         <span className="font-medium">{children}</span>
@@ -50,20 +51,9 @@ export const Sidebar = ({ files }: { files: any[] }) => {
       </div>
       <div className="flex-1 overflow-auto">
         <nav className="grid items-start px-4 text-sm font-medium">
-          <NavItem icon={<Files className="h-4 w-4" />} href="#">
+          <NavItem icon={<Files className="h-4 w-4" />} href="/dashboard/files" active={pathname === "/dashboard/files"}>
             Files
           </NavItem>
-          <div className="flex flex-col gap-2">
-            {files.map((file,i) => (
-              <Link
-                key={i}
-                className="py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
-                href={`${file.url}`}
-              >
-                {file.file_name}
-              </Link>
-            ))}
-          </div>
         </nav>
       </div>
       <div className="mt-auto py-4 px-2 border flex justify-center items-center">
