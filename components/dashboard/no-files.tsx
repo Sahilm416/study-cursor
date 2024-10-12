@@ -1,9 +1,6 @@
 "use client";
-
-import { UploadButton } from "@/utils/uploadthing";
-import { useRouter } from "next/navigation";
+import { UploadButtonComponent } from "./upload-button";
 export const NoFiles = () => {
-  const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center h-full text-center">
       <div>
@@ -13,20 +10,7 @@ export const NoFiles = () => {
         </p>
       </div>
       <div className="mt-4">
-        <UploadButton
-          appearance={{
-            button: "bg-black text-white",
-          }}
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            // Do something with the response
-            router.refresh();
-          }}
-          onUploadError={(error: Error) => {
-            // Do something with the error.
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
+        <UploadButtonComponent hideAllowedContent={false} />
       </div>
     </div>
   );
