@@ -91,7 +91,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <aside className="hidden h-screen w-[300px] border-r bg-gray-100/40 dark:bg-gray-800/40 md:block">
+      <aside className="hidden h-screen flex-shrink-0 w-[300px] border-r bg-gray-100/40 dark:bg-gray-800/40 md:block">
         <ScrollArea className="h-full">
           <SidebarContent />
         </ScrollArea>
