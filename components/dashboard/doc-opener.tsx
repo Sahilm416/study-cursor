@@ -15,7 +15,7 @@ const MemoizedDocViewer = React.memo(({ url }: { url: string }) => (
         disableFileName: true,
         disableHeader: true,
       },
-      pdfVerticalScrollByDefault: false,
+      pdfVerticalScrollByDefault: true,
       pdfZoom: {
         defaultZoom: 0.7,
         zoomJump: 0.2,
