@@ -3,6 +3,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
 import NextAuthSessionProvider from "@/components/next-auth/session-provider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server"
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,6 +34,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#f5f5f5]`}
       >
         <NextAuthSessionProvider>
+        <NextSSRPlugin
+          routerConfig={extractRouterConfig(ourFileRouter)}
+        />
           {/* <Navbar /> */}
           {children}
           <Toaster richColors={false} />
