@@ -1,3 +1,4 @@
+import { insertUser } from "@/actions/auth";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 const CLIENT_ID = process.env.OAUTH_CLIENT_ID!;
@@ -19,16 +20,12 @@ export const authOptions: NextAuthOptions = {
         throw new Error("NO profile email");
       }
 
-      //   const db_res = await insertUser({
-      //     email: profile.email,
-      //     name: profile.name,
-      //     // @ts-ignore
-      //     profile_image: profile.picture,
-      //   });
-
-      //   if (db_res.success) {
-      //     return true;
-      //   }
+      await insertUser({
+        email: profile.email,
+        name: profile.name,
+        // @ts-ignore
+        profile_image: profile.picture,
+      });
 
       return true;
     },
