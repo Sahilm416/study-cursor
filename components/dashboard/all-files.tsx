@@ -48,7 +48,7 @@ export function AllFiles({ files: initialFiles }: { files: File[] }) {
 
   return (
     <Card className="w-full h-full rounded-none border-none shadow-md bg-[#fafafa]">
-      <CardHeader className="border-b p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+      <CardHeader className="border-b sm:h-[60px] p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
         <CardTitle className="text-2xl font-bold">All Files</CardTitle>
         <div className="flex items-center space-x-2">
           <Input
