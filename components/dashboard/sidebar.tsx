@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -21,11 +21,16 @@ interface NavItemProps {
 
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   const { data: session } = useSession();
-  console.log(session?.user?.image);
-
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser(session.user);
+    }
+  }, [session]);
 
   const NavItem = ({ icon, children, href, active }: NavItemProps) => {
     return (
@@ -69,13 +74,13 @@ export const Sidebar = () => {
       <div className="mt-auto py-4 px-2 border flex justify-center items-center">
         <div className="flex items-center gap-4 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
           <Avatar className="border border-[#e4e4e4]">
-            <AvatarImage src={session?.user?.image || "/logo-small.png"} />
-            <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
+            <AvatarImage src={user?.image || "/logo-small.png"} />
+            <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="text-sm font-medium">{session?.user?.name}</span>
+            <span className="text-sm font-medium">{user?.name}</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              {session?.user?.email?.slice(0, 8) || "loading..."}
+              {user?.email?.slice(0, 8) || "loading..."}
             </span>
           </div>
           <div
