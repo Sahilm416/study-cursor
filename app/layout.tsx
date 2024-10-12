@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbar } from "@/components/nav";
+import { Toaster } from "sonner";
 import NextAuthSessionProvider from "@/components/next-auth/session-provider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +32,7 @@ export default function RootLayout({
         <NextAuthSessionProvider>
           {/* <Navbar /> */}
           {children}
+          <Toaster richColors={false} />
         </NextAuthSessionProvider>
       </body>
     </html>
