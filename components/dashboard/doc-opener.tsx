@@ -17,7 +17,7 @@ export const DocOpener = ({ url, name }: { url: string; name: string }) => {
             disableFileName: true,
             disableHeader: true,
           },
-
+          
           pdfVerticalScrollByDefault: false,
         }}
         className="selection:bg-yellow-500 h-full overflow-y-auto max-h-[calc(100vh-60px)] bg-[#fafafa] selection:text-white relative"
