@@ -1,12 +1,11 @@
-import { DocOpener } from "@/components/dashboard/doc-opener";
+"use client";
 
-const page = ({ searchParams }: { searchParams: { data: string } }) => {
-  const data = JSON.parse(searchParams.data);
+const App = ({searchParams}: {searchParams: {url: string}}) => {
   return (
-    <div className="w-full min-h-screen">
-      <iframe src={data.url} className="w-full h-screen" />
+    <div className="App relative w-full h-screen">
+        <iframe src={searchParams.url} className="w-full h-screen"></iframe>
     </div>
   );
 };
 
-export default page;
+export default App;
