@@ -44,6 +44,7 @@ export function AllFiles({ files }: { files: File[] }) {
       },
       error: "Failed to delete file",
     });
+    router.refresh();
   };
 
   return (
@@ -75,10 +76,13 @@ export function AllFiles({ files }: { files: File[] }) {
               <div
                 key={file.id}
                 className={`
-                  flex items-center justify-between p-4 hover:bg-gray-200 rounded-lg transition-colors `}
+                  flex items-center justify-between border p-4 hover:bg-gray-200 rounded-lg transition-colors `}
               >
                 <Link
-                  href={`/dashboard/files/open?url=${file.url}`}
+                  href={`/dashboard/files/open?data=${JSON.stringify({
+                    url: file.url,
+                    name: file.file_name,
+                  })}`}
                   className="flex items-center space-x-4 flex-1"
                 >
                   <div className="flex-1 min-w-0">
@@ -98,7 +102,7 @@ export function AllFiles({ files }: { files: File[] }) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem className="cursor-pointer" asChild>
                       <Link
                         href={file.url}
                         download

@@ -5,11 +5,12 @@ import DocViewer, {
 } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 
-
-export const DocOpener = ({ url }: { url: string }) => {
+export const DocOpener = ({ url, name }: { url: string; name: string }) => {
   return (
-    <div className="w-full max-w-[900px] h-full overflow-y-auto max-h-screen relative">
-      
+    <div className="w-full max-w-[900px] h-full relative">
+      <div className="w-full h-[60px] border-b flex items-center px-4">
+        <h2>{name}</h2>
+      </div>
       <DocViewer
         config={{
           header: {
@@ -17,9 +18,9 @@ export const DocOpener = ({ url }: { url: string }) => {
             disableHeader: true,
           },
 
-          pdfVerticalScrollByDefault: !false,
+          pdfVerticalScrollByDefault: false,
         }}
-        className="selection:bg-yellow-500 selection:text-white relative"
+        className="selection:bg-yellow-500 h-full overflow-y-auto max-h-[calc(100vh-60px)] bg-[#fafafa] selection:text-white relative"
         documents={[{ uri: url }]}
         pluginRenderers={[PDFRenderer]}
       />

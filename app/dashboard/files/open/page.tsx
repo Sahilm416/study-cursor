@@ -1,9 +1,10 @@
 import { DocOpener } from "@/components/dashboard/doc-opener";
 
-const page = ({ searchParams }: { searchParams: { url: string } }) => {
+const page = ({ searchParams }: { searchParams: { data: string } }) => {
+  const data = JSON.parse(searchParams.data);
   return (
     <div className="w-full min-h-screen">
-      <DocOpener url={searchParams.url} />
+      <DocOpener url={data.url} name={data.name} />
     </div>
   );
 };
