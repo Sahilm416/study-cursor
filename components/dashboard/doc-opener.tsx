@@ -73,7 +73,7 @@ export const DocOpener = ({ url, name }: { url: string; name: string }) => {
           <MemoizedDocViewer url={url} />
         </div>
         <div className={`flex-shrink-0 transition-all duration-500 ease-in-out ${chatOpen ? 'w-[400px]' : 'w-0'} overflow-hidden`}>
-          <ChatBox selectedText={selectedText} isOpen={chatOpen} />
+          <ChatBox isOpen={chatOpen} selectedText={selectedText}/>
         </div>
       </div>
     </div>
