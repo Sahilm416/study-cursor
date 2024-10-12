@@ -1,10 +1,11 @@
-import { NoFiles } from '@/components/dashboard/no-files'
-import React from 'react'
+import { getCurrentUserFiles } from '@/actions/files';
+import { AllFiles } from '@/components/dashboard/all-files'
 
-const page = () => {
+const page = async () => {
+  const files = await getCurrentUserFiles();
   return (
     <div className='min-h-screen w-full'>
-      <NoFiles />
+      <AllFiles files={files.files} />
     </div>
   )
 }
