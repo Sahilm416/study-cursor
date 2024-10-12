@@ -131,7 +131,7 @@ export function ChatBox({
       </div>
 
       {selectedText && (
-        <div className="px-4 py-2 bg-muted border-t border-b text-sm relative">
+        <div className="px-4 py-2 bg-muted border-t border-b text-sm relative max-w-[400px] overflow-y-auto">
           <Button
             variant="ghost"
             size="icon"
