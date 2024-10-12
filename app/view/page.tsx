@@ -4,7 +4,7 @@ const page = ({ searchParams }: { searchParams: { data: string } }) => {
   const data = JSON.parse(searchParams.data);
   return (
     <div className="w-full min-h-screen">
-      <DocOpener url={data.url} name={data.name} />
+      <iframe src={data.url} className="w-full h-screen" />
     </div>
   );
 };
