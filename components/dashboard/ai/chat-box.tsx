@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send, X } from "lucide-react";
 import MarkdownResponse from "./markdown-response";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ChatBox({
   selectedText: initialSelectedText,
@@ -15,11 +16,12 @@ export function ChatBox({
   isOpen: boolean;
 }) {
   const [selectedText, setSelectedText] = useState(initialSelectedText);
-  const { messages, input, handleInputChange, handleSubmit, setMessages } = useChat({
-    initialMessages: [
-      { id: "1", role: "system", content: `Selected text: ${selectedText}` },
-    ],
-  });
+  const { messages, input, handleInputChange, handleSubmit, setMessages } =
+    useChat();
+
+  useEffect(() => {
+    setSelectedText(initialSelectedText);
+  }, [initialSelectedText]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -32,28 +34,30 @@ export function ChatBox({
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    setSelectedText(initialSelectedText);
-    if (initialSelectedText) {
-      setMessages(prevMessages => [
-        ...prevMessages,
-        { id: Date.now().toString(), role: "system", content: `New selected text: ${initialSelectedText}` }
-      ]);
-    }
-  }, [initialSelectedText, setMessages]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(e, {
-      options: {
-        body: {
-          selectedText,
+    setIsLoading(true); // Set loading to true when submitting
+    if (selectedText) {
+      messages.push({
+        id: Date.now().toString(),
+        role: "user",
+        content: selectedText,
+      });
+    }
+    if (input.trim()) {
+      handleSubmit(e, {
+        options: {
+          body: {
+            selectedText,
+          },
         },
-      },
-    });
-    setSelectedText("");
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
+      });
+      setSelectedText("");
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+      }
     }
   };
 
@@ -68,8 +72,18 @@ export function ChatBox({
     setSelectedText("");
   };
 
+  useEffect(() => {
+    if (messages.length > 0 && messages[messages.length - 1].role === 'assistant') {
+      setIsLoading(false);
+    }
+  }, [messages]);
+
   return (
-    <div className={`flex flex-col h-full max-h-[calc(100vh-60px)] bg-background rounded-lg shadow-md transition-all duration-700 ease-in-out ${isOpen ? 'block' : 'hidden'}`}>
+    <div
+      className={`flex flex-col h-full max-h-[calc(100vh-60px)] bg-background rounded-lg shadow-md transition-all duration-700 ease-in-out ${
+        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      }`}
+    >
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((m) => (
           <div key={m.id}>
@@ -88,7 +102,11 @@ export function ChatBox({
                 <p className="text-sm font-semibold mb-1">
                   {m.role === "user" ? "You" : "AI"}
                 </p>
-                {m.role === "assistant" ? <MarkdownResponse content={m.content} /> : <p className="whitespace-pre-wrap">{m.content}</p>}
+                {m.role === "assistant" ? (
+                  <MarkdownResponse content={m.content} />
+                ) : (
+                  <p className="whitespace-pre-wrap">{m.content}</p>
+                )}
               </div>
             </div>
             {m.role === "user" && selectedText && (
@@ -99,6 +117,16 @@ export function ChatBox({
             )}
           </div>
         ))}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="max-w-3/4 p-3 rounded-lg bg-secondary text-secondary-foreground">
+              <p className="text-sm font-semibold mb-1">AI</p>
+              <Skeleton className="h-4 w-[200px] mb-2" />
+              <Skeleton className="h-4 w-[150px] mb-2" />
+              <Skeleton className="h-4 w-[180px]" />
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
@@ -120,7 +148,7 @@ export function ChatBox({
       <form onSubmit={handleFormSubmit} className="p-4 bg-background">
         <div className="relative">
           <Textarea
-          autoFocus
+            autoFocus
             ref={textareaRef}
             value={input}
             onChange={handleInputChange}
