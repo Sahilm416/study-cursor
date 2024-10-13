@@ -2,6 +2,7 @@
 import { supa } from "@/db/client";
 import { getUser } from "./auth";
 import { UTApi } from "uploadthing/server";
+import { index } from "@/utils/vector";
 
 type FileMetadata = {
   userId: string;
@@ -88,10 +89,41 @@ export const deleteFile = async (file_key: string) => {
     throw new Error("File not found");
   }
 
-  await supa.from("files").delete().eq("file_key", file_key);
+  const { data: idData, error: idError } = await supa
+    .from("files")
+    .delete()
+    .eq("file_key", file_key)
+    .select("id");
+
+  if (idError) {
+    throw new Error(idError.message);
+  }
+
+  index.deleteNamespace(idData[0].id!.toString());
 
   const { deletedCount } = await utapi.deleteFiles([file_key]);
   if (deletedCount === 0) {
     throw new Error("Failed to delete file");
+  }
+};
+
+export const upsertToVector = async (slices: string[], url: string) => {
+  const { data, error } = await supa.from("files").select("*").eq("url", url);
+  if (error) {
+    throw new Error(error.message);
+  }
+  console.log("url is ", data[0].id!);
+  try {
+    const namespace = index.namespace(data[0].id!.toString());
+    const upsertPromises = slices.map((slice, index) =>
+      namespace.upsert({
+        id: index.toString(),
+        data: slice,
+      })
+    );
+    await Promise.all(upsertPromises);
+  } catch (error) {
+    console.error("Error upserting to vector:", error);
+    throw new Error("Failed to upsert to vector");
   }
 };
