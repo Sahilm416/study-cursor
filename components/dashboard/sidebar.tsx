@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { search } from "@/actions/search";
 
 interface NavItemProps {
   icon: ReactNode;
@@ -69,6 +70,10 @@ export const Sidebar = () => {
           >
             Files
           </NavItem>
+          <Button onClick={async () =>{
+            const res =  await search("Javascript")
+            console.log(res)
+          }}>Search</Button>
         </nav>
       </div>
       <div className="mt-auto py-4 px-2 border flex justify-center items-center">
