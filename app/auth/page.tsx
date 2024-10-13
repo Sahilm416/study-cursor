@@ -6,7 +6,7 @@ import React from "react";
 const page = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <Button onClick={() => signIn("google")}>Continue with Google</Button>
+      <Button className="bg-[#202020] border border-[#353535] text-white" onClick={() => signIn("google")}>Continue with Google</Button>
     </div>
   );
 };
