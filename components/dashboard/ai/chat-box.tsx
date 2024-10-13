@@ -53,10 +53,7 @@ export function ChatBox({
       messages.push({
         id: Date.now().toString(),
         role: "user",
-        content:
-          selectedText.length > 200
-            ? selectedText.slice(0, 200) + "..."
-            : selectedText,
+        content: selectedText,
       });
     }
     if (input.trim()) {
@@ -64,6 +61,7 @@ export function ChatBox({
         options: {
           body: {
             selectedText,
+            id,
           },
         },
       });
