@@ -1,8 +1,9 @@
 import "server-only";
-import { uploadFile } from "@/actions/files";
+import { uploadFile, upsertToVector } from "@/actions/files";
 import { verifyUser } from "@/actions/verify";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { UploadThingError } from "uploadthing/server";
+import { UploadThingError, UTApi } from "uploadthing/server";
+import { createSlices, textExtractor } from "./extra";
 
 const f = createUploadthing();
 
@@ -24,16 +25,31 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
+      let slices: string[] = [];
 
-      // if (error) throw new Error(error.message);
+      const data = await textExtractor(file.url);
+
+      console.log("data is ", data);
+
+      slices = createSlices(data.text);
+      console.log(`Slices created: ${slices.length}`);
+
+      if (!metadata.userId) throw new Error("Failed to get user id");
+
       const res = await uploadFile({
-        userId: metadata.userId!,
+        userId: metadata.userId,
         url: file.url,
         name: file.name,
         file_key: file.key,
       });
 
-      return res;
+      console.log("database upload success");
+
+      await upsertToVector(slices, file.url);
+
+      console.log("vector upload success");
+
+      return { success: res.success };
     }),
 } satisfies FileRouter;
 
