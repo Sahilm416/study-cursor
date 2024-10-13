@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/auth";
+import { index } from "@/utils/vector";
 import { openai } from "@ai-sdk/openai";
 import { streamText, convertToCoreMessages } from "ai";
 import { NextResponse } from "next/server";
@@ -11,7 +12,11 @@ export async function POST(req: Request) {
   if (!res?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { messages, selectedText } = await req.json();
+  const { messages, selectedText, id } = await req.json();
+
+  const namespace = index.namespace(id.toString());
+
+  
 
   const result = await streamText({
     system: `question: ${

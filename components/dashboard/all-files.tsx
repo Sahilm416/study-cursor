@@ -79,10 +79,7 @@ export function AllFiles({ files }: { files: File[] }) {
                   flex items-center justify-between border p-4 hover:bg-gray-200 rounded-lg transition-colors `}
               >
                 <Link
-                  href={`/dashboard/files/open?data=${JSON.stringify({
-                    url: file.url,
-                    name: file.file_name,
-                  })}`}
+                  href={`/dashboard/files/open?id=${file.id}`}
                   className="flex items-center space-x-4 flex-1"
                 >
                   <div className="flex-1 min-w-0">

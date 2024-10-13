@@ -11,9 +11,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function ChatBox({
   selectedText: initialSelectedText,
   isOpen,
+  id,
 }: {
   selectedText: string;
   isOpen: boolean;
+  id: string;
 }) {
   const [selectedText, setSelectedText] = useState(initialSelectedText);
   const { messages, input, handleInputChange, handleSubmit, setMessages } =

@@ -127,3 +127,21 @@ export const upsertToVector = async (slices: string[], url: string) => {
     throw new Error("Failed to upsert to vector");
   }
 };
+
+export const getFile = async (id: string) => {
+  const res = await getUser();
+
+  if (!res.success || !res.user) {
+    throw new Error("User not authenticated");
+  }
+
+  const { data, error } = await supa.from("files").select("*").eq("id", id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  if (data[0].uploaded_by !== res.user.email) {
+    throw new Error("You are not authorized to access this file");
+  }
+
+  return data[0];
+};

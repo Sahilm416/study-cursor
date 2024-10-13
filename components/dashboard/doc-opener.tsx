@@ -27,7 +27,7 @@ const MemoizedDocViewer = React.memo(({ url }: { url: string }) => (
   />
 ));
 
-export const DocOpener = ({ url, name }: { url: string; name: string }) => {
+export const DocOpener = ({ url, name, id }: { url: string; name: string; id: string }) => {
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedText, setSelectedText] = useState("");
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -73,7 +73,7 @@ export const DocOpener = ({ url, name }: { url: string; name: string }) => {
           <MemoizedDocViewer url={url} />
         </div>
         <div className={`flex-shrink-0 transition-all duration-500 ease-in-out ${chatOpen ? 'w-[400px]' : 'w-0'} overflow-hidden`}>
-          <ChatBox isOpen={chatOpen} selectedText={selectedText}/>
+          <ChatBox id={id} isOpen={chatOpen} selectedText={selectedText}/>
         </div>
       </div>
     </div>
