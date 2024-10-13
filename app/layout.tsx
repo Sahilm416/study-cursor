@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#f5f5f5]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#181818] text-white`}
       >
         <NextAuthSessionProvider>
         <NextSSRPlugin

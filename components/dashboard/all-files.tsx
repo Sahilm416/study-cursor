@@ -48,9 +48,11 @@ export function AllFiles({ files }: { files: File[] }) {
   };
 
   return (
-    <Card className="w-full h-full rounded-none border-none shadow-md bg-[#fafafa]">
-      <CardHeader className="border-b sm:h-[60px] p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-        <CardTitle className="text-2xl font-bold">All Files</CardTitle>
+    <Card className="w-full h-full rounded-none border-none shadow-md bg-[#181818]">
+      <CardHeader className="border-b border-[#353535] sm:h-[60px] p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+        <CardTitle className="text-2xl font-bold text-white">
+          All Files
+        </CardTitle>
         {files.length > 0 && (
           <div className="flex items-center space-x-2">
             <Input
@@ -58,7 +60,7 @@ export function AllFiles({ files }: { files: File[] }) {
               placeholder="Search files..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full sm:w-64"
+              className="w-full sm:w-64 bg-[#202020] border border-[#353535] text-white"
             />
 
             <UploadButtonComponent hideAllowedContent={true} />
@@ -76,30 +78,37 @@ export function AllFiles({ files }: { files: File[] }) {
               <div
                 key={file.id}
                 className={`
-                  flex items-center justify-between border p-4 hover:bg-gray-200 rounded-lg transition-colors `}
+                  flex items-center justify-between border border-[#353535] p-4 hover:bg-[#141414] rounded-lg transition-colors `}
               >
                 <Link
                   href={`/dashboard/files/open?id=${file.id}`}
                   className="flex items-center space-x-4 flex-1"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-white truncate">
                       {file.file_name}
                     </p>
-                    <p className="text-xs text-gray-500">
-                      {file.uploaded_date}
-                    </p>
+                    <p className="text-xs text-white">{file.uploaded_date}</p>
                   </div>
                 </Link>
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger
+                    className="hover:bg-[#202020] rounded-lg"
+                    asChild
+                  >
                     <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
+                      <MoreVertical className="h-4 w-4 text-white" />
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="cursor-pointer" asChild>
+                  <DropdownMenuContent
+                    className="bg-[#202020] text-white border border-[#353535]"
+                    align="end"
+                  >
+                    <DropdownMenuItem
+                      className="cursor-pointer hover:bg-[#202020] "
+                      asChild
+                    >
                       <Link
                         href={file.url}
                         download
@@ -110,7 +119,7 @@ export function AllFiles({ files }: { files: File[] }) {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => handleDelete(file.file_key)}
-                      className="text-red-600 cursor-pointer"
+                      className="text-red-600 cursor-pointer hover:bg-[#202020]"
                     >
                       <Trash2 className="mr-2 h-4 w-4" /> Delete
                     </DropdownMenuItem>

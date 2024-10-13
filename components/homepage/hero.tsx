@@ -9,7 +9,7 @@ export const Hero = () => {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-7xl/none">
               Study Smarter with AI
             </h1>
-            <p className="mx-auto max-w-[400px] text-[#353535]">
+            <p className="mx-auto max-w-[400px] text-white">
               Upload your documents and let our AI help you study more
               effectively. Interact, question, and learn faster than ever
               before.
@@ -17,9 +17,9 @@ export const Hero = () => {
           </div>
           <div className="space-x-4">
             <Link href="/dashboard/files">
-              <Button>Get Started</Button>
+              <Button className="bg-[#202020] border border-[#353535] text-white">Get Started</Button>
             </Link>
-            <Button variant="outline">Learn More</Button>
+            <Button variant="outline" className="bg-[#202020] border border-[#353535] hover:bg-[#181818] hover:text-white text-white">Learn More</Button>
           </div>
         </div>
       </div>

@@ -94,7 +94,7 @@ export function ChatBox({
 
   return (
     <div
-      className={`flex flex-col h-full max-h-[calc(100vh-60px)] bg-background rounded-lg shadow-md transition-all duration-700 ease-in-out ${
+      className={`flex flex-col h-full max-h-[calc(100vh-60px)] bg-[#181818] transition-all duration-700 ease-in-out ${
         isOpen ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
@@ -109,8 +109,8 @@ export function ChatBox({
               <div
                 className={`max-w-3/4 p-3 rounded-lg ${
                   m.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground"
+                    ? "bg-[#202020] border border-[#353535] text-white"
+                    : "bg-[#202020] border border-[#353535] text-white"
                 }`}
               >
                 <p className="text-sm font-semibold mb-1">
@@ -133,11 +133,11 @@ export function ChatBox({
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="max-w-3/4 p-3 rounded-lg bg-secondary text-secondary-foreground">
+            <div className="max-w-3/4 p-3 rounded-lg bg-[#202020] border border-[#353535] text-white">
               <p className="text-sm font-semibold mb-1">AI</p>
-              <Skeleton className="h-4 w-[200px] mb-2" />
-              <Skeleton className="h-4 w-[150px] mb-2" />
-              <Skeleton className="h-4 w-[180px]" />
+              <Skeleton className="h-4 bg-[#353535] w-[200px] mb-2" />
+              <Skeleton className="h-4 bg-[#353535] w-[150px] mb-2" />
+              <Skeleton className="h-4 bg-[#353535] w-[180px]" />
             </div>
           </div>
         )}
@@ -159,7 +159,7 @@ export function ChatBox({
         </div>
       )}
 
-      <form onSubmit={handleFormSubmit} className="p-4 bg-background">
+      <form onSubmit={handleFormSubmit} className="p-4 bg-[#181818]">
         <div className="relative">
           <Textarea
             ref={textareaRef}
@@ -167,7 +167,7 @@ export function ChatBox({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
-            className="pr-12 resize-none overflow-hidden"
+            className="pr-12 resize-none overflow-hidden bg-[#202020] border border-[#353535] text-white"
             rows={1}
             onInput={(e) => {
               const target = e.target as HTMLTextAreaElement;

@@ -2,7 +2,7 @@
 import { UploadButtonComponent } from "./upload-button";
 export const NoFiles = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center">
+    <div className="flex flex-col items-center text-white justify-center h-full text-center">
       <div>
         <h1 className="text-2xl font-bold">You don't have any files yet</h1>
         <p className="text-sm text-gray-500">

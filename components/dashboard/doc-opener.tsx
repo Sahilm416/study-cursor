@@ -29,7 +29,7 @@ const MemoizedDocViewer = React.memo(
             <Document
               file={url}
               onLoadSuccess={onDocumentLoadSuccess}
-              className="flex flex-col items-center "
+              className="flex flex-col items-center mt-10"
             >
               {Array.from(new Array(numPages), (el, index) => (
                 <Page
@@ -37,7 +37,7 @@ const MemoizedDocViewer = React.memo(
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
                   renderTextLayer={true}
-                  className="mb-4 shadow-lg"
+                  className="mb-10"
                 />
               ))}
             </Document>
