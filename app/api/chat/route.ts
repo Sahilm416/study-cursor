@@ -1,10 +1,11 @@
 import { getUser } from "@/actions/auth";
 import { index } from "@/utils/vector";
 import { openai } from "@ai-sdk/openai";
-import { streamText, convertToCoreMessages, Message } from "ai";
+import { streamText, convertToCoreMessages, Message, tool } from "ai";
 import { NextResponse } from "next/server";
 import { instruction } from "./extra";
 
+import { z } from "zod";
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
@@ -43,8 +44,23 @@ export async function POST(req: Request) {
     system: instruction(query),
     model: openai("gpt-4-turbo"),
     messages: convertToCoreMessages(messages),
-    temperature: 0.7, // Add temperature for controlled randomness
-    maxTokens: 500, // Limit response length
+    temperature: 0.7,
+    maxTokens: 500,
+    // tools: {
+    //   ytsearch: tool({
+    //     description: "Suggest youtube videos for a topic",
+    //     parameters: z.object({
+    //       query: z.string().describe("The search query for YouTube"),
+    //     }),
+    //     execute: async ({ query }) => {
+    //       const result = await fetch(
+    //         `https://www.googleapis.com/youtube/v3/search?key=${process.env.GOOGLE_API_KEY}&q=${query}&part=snippet&type=video&maxResults=4`
+    //       );
+    //       const data = await result.json();
+    //       return JSON.stringify(data);
+    //     },
+    //   }),
+    // },
   });
 
   return result.toDataStreamResponse();

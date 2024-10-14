@@ -5,8 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send, X } from "lucide-react";
-import MarkdownResponse from "./markdown-response";
+import { Markdown } from "./markdown-response";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Videos } from "./videos";
 
 export function ChatBox({
   selectedText: initialSelectedText,
@@ -117,14 +118,19 @@ export function ChatBox({
                   {m.role === "user" ? "You" : "AI"}
                 </p>
                 {m.role === "assistant" ? (
-                  <MarkdownResponse content={m.content} />
+                  <>
+                    <Markdown>{m.content}</Markdown>
+                    {/* {m.toolInvocations && (
+                      <Videos videos={m.toolInvocations[0]} />
+                    )} */}
+                  </>
                 ) : (
                   <p className="whitespace-pre-wrap">{m.content}</p>
                 )}
               </div>
             </div>
             {m.role === "user" && selectedText && (
-              <div className="mt-2 p-2 bg-muted rounded-lg text-sm">
+              <div className="mt-2 p-2 bg-[#202020] border border-[#353535] rounded-lg text-sm">
                 <p className="font-semibold">Selected Text:</p>
                 <p>{selectedText}</p>
               </div>
@@ -145,7 +151,7 @@ export function ChatBox({
       </div>
 
       {selectedText && (
-        <div className="px-4 py-2 bg-muted border-t border-b text-sm relative max-w-[400px] overflow-y-auto">
+        <div className="px-4 py-2 bg-[#202020] border border-[#353535] text-sm relative max-w-[400px] overflow-y-auto">
           <Button
             variant="ghost"
             size="icon"
